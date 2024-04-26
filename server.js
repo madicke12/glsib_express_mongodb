@@ -5,9 +5,10 @@ const app = express();
 const logger = require("morgan");
 
 const PORT = process.env.PORT || 4002;
+const bodyParser = require("body-parser");
 
 const db = require("./models");
-
+require("./routes/student.routes")(app);
 db.mongoose
   .connect(db.url)
   .then(() => {
@@ -19,7 +20,7 @@ db.mongoose
   });
 
 app.use(logger("dev"));
-
+app.use(bodyParser.urlencoded({type:bodyParser.json, extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to glsi students application." });
 });
